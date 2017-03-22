@@ -46,22 +46,14 @@ def main():
 		print("[ERROR] Path '{0}' isn't valid.".format(args.path))
 		sys.exit(2)
 
-	try:
-		fileProcessorModule = __import__(args.language)
-		fileProcessorClass = getattr(fileProcessorModule, args.language)
-		fileProcessor = fileProcessorClass()
+	lc = LineCount(args)
 
-	except ImportError as ie:
-		print("[EXCEPT CAUGHT] {0}".format(ie))
+	# Attempt to lead the file processor.
+	if lc.LoadFileProcessor(args.language) == False:
 		sys.exit(2)
 
-	except AttributeError as ae:
-		print("[EXCEPT CAUGHT] {0}".format(ae))
-		sys.exit(2)	
-
-	lc = LineCount(fileProcessor, args)
 	lc.ProcessFilesInDir(args.path)
-		
+
 
 if __name__ == "__main__":
 	main()
