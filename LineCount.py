@@ -67,10 +67,10 @@ class LineCount(object):
 		
 		totalLines = totalBlankLines + totalCommentLines + totalCodeLines		
 		print("Results:")
-		percentage = round((totalBlankLines / totalLines) * 100, 2)
+		percentage = round((totalBlankLines / totalLines) * 100, 2) if totalLines else 0
 		print("=> Blank lines   : {0} [{1}%]".format(totalBlankLines, percentage))
-		percentage = round((totalCommentLines / totalLines) * 100, 2)
+		percentage = round((totalCommentLines / totalLines) * 100, 2) if totalLines else 0
 		print("=> Comment lines : {0} [{1}%]".format(totalCommentLines, percentage))
-		percentage = round((totalCodeLines / totalLines) * 100, 2)
+		percentage = round((totalCodeLines / totalLines) * 100, 2) if totalLines else 0
 		print("=> Code lines    : {0} [{1}%]".format(totalCodeLines, percentage))
 		print("=> TOTAL : {0} lines".format(totalLines))
