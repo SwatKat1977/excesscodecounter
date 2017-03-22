@@ -44,7 +44,8 @@ def main():
 	# Check if the specified directory is valid.
 	if os.path.isdir(args.path) == False:
 		print("[ERROR] Path '{0}' isn't valid.".format(args.path))
-	
+		sys.exit(2)
+
 	try:
 		fileProcessorModule = __import__(args.language)
 		fileProcessorClass = getattr(fileProcessorModule, args.language)
