@@ -20,13 +20,13 @@ from FileProcessor import *
 
 class CPlusPlus(FileProcessor):
 	_StripCharacters = ' \t\n\r'
-	
+
 	# Comment keywords
 	_LongCommentStart = '/*'
 	_LongCommentEnd = '*/'
 	_ShortComment = '//'
 
-	_Extensions = ['cpp', 'h', 'hpp', 'cs']
+	_Extensions = ['cpp', 'h', 'hpp']
 
 
 	def __init__(self):
