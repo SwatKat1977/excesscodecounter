@@ -31,12 +31,12 @@ class FileProcessor(object):
 	# Override Function: Function to check if the file line is code.
 	def IsCode(self, line):
 		raise NotImplementedError()
-		
+
 
 	def IsExpectedFileExtension(self, extension):
 		raise NotImplementedError()
 
-		
+
 	def ProcessFile(self, filename):
 		blankLines = 0
 		commentLines = 0
@@ -70,7 +70,7 @@ class FileProcessor(object):
 			if self.IsBlankLine(line) == True:
 				blankLines += 1
 				continue
-	
+
 			# Line is code, increment count and continue.
 			if self.IsCode(line) == True:
 				codeLines +=1
