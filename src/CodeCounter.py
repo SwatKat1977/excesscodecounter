@@ -19,42 +19,42 @@ import argparse
 import os
 from LineCount import *
 
-		
+
 def main():
-	argsParser = argparse.ArgumentParser()
-	
-	# 'Optional Arguments' : 'language'.
-	argsParser.add_argument('-l', '--language', required = True, 
-		help = 'Programming language files to process.')
+    argsParser = argparse.ArgumentParser()
 
-	# 'Optional Arguments' : 'recursive'.
-	argsParser.add_argument('-r', '--recursive', action="store_true",
-		help = 'Flag to specify if to recurse sub directories.')
-		
-	# 'Optional Arguments' : 'verbose'.
-	argsParser.add_argument('-v', '--verbose', action="store_true",
-		help = 'Flag to specify if to display verbose text.')
+    # 'Optional Arguments' : 'language'.
+    argsParser.add_argument('-l', '--language', required = True,
+        help = 'Programming language files to process.')
 
-	# 'Positional Arguments' : 'path to start from'.
-	argsParser.add_argument('path', help ='Root to search from')
-	
-	# Parse the arguments.
-	args = argsParser.parse_args()
+    # 'Optional Arguments' : 'recursive'.
+    argsParser.add_argument('-r', '--recursive', action="store_true",
+        help = 'Flag to specify if to recurse sub directories.')
 
-	# Check if the specified directory is valid.
-	if os.path.isdir(args.path) == False:
-		print("[ERROR] Path '{0}' isn't valid.".format(args.path))
-		sys.exit(2)
+    # 'Optional Arguments' : 'verbose'.
+    argsParser.add_argument('-v', '--verbose', action="store_true",
+        help = 'Flag to specify if to display verbose text.')
 
-	lc = LineCount(args)
+    # 'Positional Arguments' : 'path to start from'.
+    argsParser.add_argument('path', help ='Root to search from')
 
-	# Attempt to lead the file processor.
-	if lc.LoadFileProcessor(args.language) == False:
-		sys.exit(2)
+    # Parse the arguments.
+    args = argsParser.parse_args()
 
-	lc.ProcessFilesInDir(args.path)
+    # Check if the specified directory is valid.
+    if os.path.isdir(args.path) == False:
+        print("[ERROR] Path '{0}' isn't valid.".format(args.path))
+        sys.exit(2)
+
+    lc = LineCount(args)
+
+    # Attempt to lead the file processor.
+    if lc.LoadFileProcessor(args.language) == False:
+        sys.exit(2)
+
+    lc.ProcessFilesInDir(args.path)
 
 
 if __name__ == "__main__":
-	main()
-	sys.exit()
+    main()
+    sys.exit()
