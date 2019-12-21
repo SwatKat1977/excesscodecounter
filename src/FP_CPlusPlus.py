@@ -1,6 +1,6 @@
 '''
 Extensible Code Counter System [EXCESS]
-Copyright (C) 2017 Paul Morriss
+Copyright (C) 2017-2019 Gemma Morriss
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -19,54 +19,54 @@ from FileProcessor import *
 
 
 class CPlusPlus(FileProcessor):
-	_StripCharacters = ' \t\n\r'
+    _StripCharacters = ' \t\n\r'
 
-	# Comment keywords
-	_LongCommentStart = '/*'
-	_LongCommentEnd = '*/'
-	_ShortComment = '//'
+    # Comment keywords
+    _LongCommentStart = '/*'
+    _LongCommentEnd = '*/'
+    _ShortComment = '//'
 
-	_Extensions = ['cpp', 'h', 'hpp']
-
-
-	def __init__(self):
-		self._inComment = False
+    _Extensions = ['cpp', 'h', 'hpp']
 
 
-	def IsBlankLine(self, line):	
-		# If line is void of characters then it's obviously blank!
-		return len(line) == 0
+    def __init__(self):
+        self._inComment = False
 
 
-	def IsComment(self, line):
-		# If there in comment block then check for end, or just increment the
-		# count for comment lines.
-		if self._inComment == True:
-			if line.startswith(self._LongCommentEnd):
-				self._inComment = False
-
-			return True
-
-		else:
-			# Long comment has been detected.
-			if line.startswith(self._LongCommentStart):
-				# It's possible long comment is in one line, so check.
-				if not line.endswith(self._LongCommentEnd):
-					self._inComment = True
-
-				return True
-
-			# Short comment has been detected.
-			elif line.startswith(self._ShortComment):
-				return True
-
-		# Not a comment keyword
-		return False
+    def IsBlankLine(self, line):
+        # If line is void of characters then it's obviously blank!
+        return len(line) == 0
 
 
-	def IsCode(self, line):
-		return True
+    def IsComment(self, line):
+        # If there in comment block then check for end, or just increment the
+        # count for comment lines.
+        if self._inComment == True:
+            if line.startswith(self._LongCommentEnd):
+                self._inComment = False
+
+            return True
+
+        else:
+            # Long comment has been detected.
+            if line.startswith(self._LongCommentStart):
+                # It's possible long comment is in one line, so check.
+                if not line.endswith(self._LongCommentEnd):
+                    self._inComment = True
+
+                return True
+
+            # Short comment has been detected.
+            elif line.startswith(self._ShortComment):
+                return True
+
+        # Not a comment keyword
+        return False
 
 
-	def IsExpectedFileExtension(self, extension):
-		return extension in self._Extensions
+    def IsCode(self, line):
+        return True
+
+
+    def IsExpectedFileExtension(self, extension):
+        return extension in self._Extensions
