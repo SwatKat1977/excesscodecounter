@@ -47,7 +47,7 @@ class LineCount:
         totalCommentLines = 0
         totalCodeLines = 0
 
-        if self._fileProcessor == None:
+        if not self._fileProcessor:
             print("[ERROR] No file processor has been specified!")
             return
 
@@ -55,7 +55,7 @@ class LineCount:
         for dirName, subDirList, fileList in os.walk(pathDir):
 
             # If recursive flag is not sete then delete sub directories.
-            if self._arguments.recursive == False:
+            if not self._arguments.recursive:
                 del subDirList[:]
 
             for fileName in fileList:
@@ -63,7 +63,7 @@ class LineCount:
                 ext = fileName.rpartition('.')[-1]
 
                 # Check that the file extension is valid.
-                if self._fileProcessor.IsExpectedFileExtension(ext) == False:
+                if not self._fileProcessor.IsExpectedFileExtension(ext):
                     continue
 
                 fullFilename = os.path.join(dirName, fileName)
@@ -74,14 +74,14 @@ class LineCount:
 
                     totalBlankLines += blankLines
                     totalCommentLines += commentLines
-                    totalCodeLines  += codeLines
+                    totalCodeLines += codeLines
 
-                    if self._arguments.verbose == True:
-                        str = "{0} | Blank Lines : {1} | " + \
-                            "Comment Lines : {2} | " + "Code Lines : {3} |"
+                    if self._arguments.verbose:
+                        msgStr = "{0} | Blank Lines : {1} | " + \
+                                 "Comment Lines : {2} | " + "Code Lines : {3} |"
                         self.LogMessage(LogLevel.Verbose,
-                            str.format(fullFilename, blankLines, commentLines,
-                            codeLines))
+                                        msgStr.format(fullFilename, blankLines,
+                                                      commentLines, codeLines))
 
         totalLines = totalBlankLines + totalCommentLines + totalCodeLines
         print("Results:")
@@ -102,13 +102,13 @@ class LineCount:
             fileProcessorClass = getattr(fileProcessorModule, processorName)
             fileProcessor = fileProcessorClass()
 
-        except ImportError as ie:
-            self.LogMessage(LogLevel.Error,
-            "'{0}' file processor load error : {1}".format(processorName, ie))
+        except ImportError as ex:
+            msg = f"'{processorName}' file processor load error : {ex}"
+            self.LogMessage(LogLevel.Error, msg)
             return False
 
-        except AttributeError as ae:
-            print("[EXCEPT CAUGHT] {0}".format(ae))
+        except AttributeError as ex:
+            print(f"[EXCEPT CAUGHT] {ex}")
             return False
 
         self._fileProcessor = fileProcessor
@@ -117,5 +117,4 @@ class LineCount:
 
 
     def LogMessage(self, logLevel, message):
-        str = "{0} {1}".format(LogLevelStr[logLevel], message)
-        print(str)
+        print(f"{LogLevelStr[logLevel]} {message}")
