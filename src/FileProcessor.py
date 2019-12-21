@@ -1,6 +1,6 @@
 '''
 Extensible Code Counter System [EXCESS]
-Copyright (C) 2017 Paul Morriss
+Copyright (C) 2017-2019 Gemma Morriss
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -15,7 +15,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
-class FileProcessor(object):
+
+
+class FileProcessor:
 
     # Override Function: Function to check if the file line is blank.
     def IsBlankLine(self, line):
@@ -44,13 +46,13 @@ class FileProcessor(object):
 
         # Verify that the extension is what we expect, don't raise an error, it
         # is quietly ignored.
-        if self.IsExpectedFileExtension(filename.rpartition('.')[-1]) == False:
+        if not self.IsExpectedFileExtension(filename.rpartition('.')[-1]):
             print("[DEBUG] Unexpected... ignoring '{0}'".format(filename))
             return False
 
         # Attempt to open the source file.
         fileHandle, msg = self._OpenSourceFile(filename)
-        if fileHandle == None:
+        if not fileHandle:
             print("[ERROR] Unable to open file '{0}' : {1}".format(filename, msg))
             return False
 
@@ -62,18 +64,18 @@ class FileProcessor(object):
 
             # If line is within a comment or start/end of long comment then
             # increment count and continue.
-            if self.IsComment(line) == True:
+            if self.IsComment(line):
                 commentLines += 1
                 continue
 
             # If line is blank then increment count and continue.
-            if self.IsBlankLine(line) == True:
+            if self.IsBlankLine(line):
                 blankLines += 1
                 continue
 
             # Line is code, increment count and continue.
-            if self.IsCode(line) == True:
-                codeLines +=1
+            if self.IsCode(line):
+                codeLines += 1
 
         # Return statistics for the file.
         return [blankLines, commentLines, codeLines]

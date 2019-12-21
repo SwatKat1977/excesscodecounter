@@ -1,6 +1,6 @@
 '''
 Extensible Code Counter System [EXCESS]
-Copyright (C) 2017 Paul Morriss
+Copyright (C) 2017-2019 Gemma Morriss
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,44 +17,44 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 '''
 import argparse
 import os
-from LineCount import *
+import sys
+from LineCount import LineCount
 
 
-def main():
+def Main():
     argsParser = argparse.ArgumentParser()
 
     # 'Optional Arguments' : 'language'.
-    argsParser.add_argument('-l', '--language', required = True,
-        help = 'Programming language files to process.')
+    argsParser.add_argument('-l', '--language', required=True,
+                            help='Programming language files to process.')
 
     # 'Optional Arguments' : 'recursive'.
     argsParser.add_argument('-r', '--recursive', action="store_true",
-        help = 'Flag to specify if to recurse sub directories.')
+                            help='Flag to specify if to recurse sub directories.')
 
     # 'Optional Arguments' : 'verbose'.
     argsParser.add_argument('-v', '--verbose', action="store_true",
-        help = 'Flag to specify if to display verbose text.')
+                            help='Flag to specify if to display verbose text.')
 
     # 'Positional Arguments' : 'path to start from'.
-    argsParser.add_argument('path', help ='Root to search from')
+    argsParser.add_argument('path', help='Root to search from')
 
     # Parse the arguments.
     args = argsParser.parse_args()
 
     # Check if the specified directory is valid.
-    if os.path.isdir(args.path) == False:
+    if not os.path.isdir(args.path):
         print("[ERROR] Path '{0}' isn't valid.".format(args.path))
         sys.exit(2)
 
-    lc = LineCount(args)
+    lineCount = LineCount(args)
 
     # Attempt to lead the file processor.
-    if lc.LoadFileProcessor(args.language) == False:
+    if not lineCount.LoadFileProcessor(args.language):
         sys.exit(2)
 
-    lc.ProcessFilesInDir(args.path)
+    lineCount.ProcessFilesInDir(args.path)
 
 
 if __name__ == "__main__":
-    main()
-    sys.exit()
+    Main()
